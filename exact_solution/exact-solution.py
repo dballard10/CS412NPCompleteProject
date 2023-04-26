@@ -22,6 +22,7 @@ def verify(permutations, vertices, edges):
     Check to ensure fully unique vertices
     check that neighbors have different colors
     """
+    
 
 
   return None
