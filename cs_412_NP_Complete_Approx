@@ -1,0 +1,17 @@
+def min_graph_coloring():
+    #graph G
+    #generate graph
+
+    #list of colors
+    #set degrees for each vertex
+    #set saturation for each vertex
+
+    #find vertex with high saturation
+    #find vertex with highest degree (if more than 1 choose lowest vertex number)
+    #color vertex with minimum color possible
+
+
+
+
+if __name__ == "__main__":
+    min_graph_coloring()
