@@ -1,17 +1,67 @@
-def min_graph_coloring():
-    #graph G
-    #generate graph
+def main():
+    num_edges = int(input())
 
+    adj_list = {}
+    for _ in range(num_edges):
+        v1, v2 = input().split()
+        if v1 not in adj_list:
+            adj_list[v1] = {}
+        adj_list[v1][v2] = -1
+
+        if v2 not in adj_list:
+            adj_list[v2] = {}
+        adj_list[v2][v1] = -1
+    
+    print(adj_list)
+
+def min_graph_coloring(graph):
     #list of colors
-    #set degrees for each vertex
-    #set saturation for each vertex
+    colors = []
 
-    #find vertex with high saturation
-    #find vertex with highest degree (if more than 1 choose lowest vertex number)
+    vertex_map = {}
+    for v in graph:
+        degree = len(graph[v])
+        sat = 0
+        for u in graph[v]:
+            if graph[v][u] != 0:
+                sat += 1
+        #set degrees for each vertex
+        #set saturation for each vertex
+        vertex_map[v] = (degree, sat)
+
+    #find vertices with high saturation
+    sat_vertices = get_saturated(vertex_map)
+    #find vertex with highest degree
+    highest_degree = get_highest_degree(sat_vertices)
+
     #color vertex with minimum color possible
+    return len(colors)
 
+def get_saturated(vertex_map):
+    sat_vertices = {}
+    greatest_sat = -1
 
+    for v in vertex_map:
+        curr_sat = vertex_map[v][1]
+        if curr_sat > greatest_sat:
+            sat_vertices = {}
+            greatest_sat = curr_sat
+            sat_vertices[v] = vertex_map[v]
+        if curr_sat == greatest_sat:
+            sat_vertices[v] = vertex_map[v]
+    
+    return sat_vertices
+
+def get_highest_degree(vertex_map):
+    highest_degree = -1
+    highest_vertex = -1
+    for v in vertex_map:
+        curr_degree = vertex_map[v][0]
+        if curr_degree > highest_degree:
+            highest_degree = curr_degree
+            highest_vertex = v
+    return highest_vertex
 
 
 if __name__ == "__main__":
-    min_graph_coloring()
+    main()
