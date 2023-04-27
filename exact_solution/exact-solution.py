@@ -47,8 +47,6 @@ def verify(permutation, vertices, edges):
   check that neighbors have different colors
   """
 
-  print(permutation)
-
   for pair in permutation:
     for other in permutation:
       if pair != other:
@@ -100,13 +98,13 @@ def minColorExact(graph, vertices):
 
     for option in graph_options:
       if verify(option, vertices, graph) != None:
+        print(colorNum)
         return option
 
     ## final_graph = verify(graph_options, vertices, graph)
     if colorNum == 2:
       complete = True
-
-  ##return final_graph
+  
 
 
 def main():
@@ -125,7 +123,10 @@ def main():
       edges.append([])
     edges[vertices.index(x)].append(y)
     edges[vertices.index(y)].append(x)
-  print("The minimum color graph for the provided graph is {}".format(minColorExact(edges, vertices)))
+  solution = minColorExact(edges, vertices)
+
+  for pair in solution:
+    print("{0} {1}".format(pair[0],pair[1]))
 
   ##print(vertices)
   ##print(edges)
