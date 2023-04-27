@@ -33,8 +33,7 @@ def verify(permutation, vertices, edges):
     """
 
     if p1[0] == p2[0]: ## if the two tuples represent the same vertex, no need to do more.
-      #print(p1,p2)
-      ## print("both for same vertex")
+
       return False
     if p2[0] in edges[vertices.index(p1[0])]: ## if they're neighbors, confirm the color difference
       if p1[1] == p2[1]:
@@ -66,14 +65,12 @@ def minColorExact(graph, vertices):
   colorNum = 0
   while complete == False:
     colorNum += 1 ## increase the number of colors until a valid graph is found
-    ## print(colorNum)
+
     colors = [] ## sets starting condition where no colors are used
     for i in range(colorNum):
       colors.append(i)
 
     potential_colors = list(itertools.product(vertices,colors)) ## display all possible color assignments for reference
-
-    ## print(potential_colors)
 
     """
     Process for finding min color graph:
@@ -92,18 +89,11 @@ def minColorExact(graph, vertices):
     """
 
     graph_options = list(itertools.permutations(potential_colors, len(vertices)))
-    # if colorNum == 2:
-    #   for option in graph_options:
-    #     print(option)
 
     for option in graph_options:
       if verify(option, vertices, graph) != None:
         print(colorNum)
         return option
-
-    ## final_graph = verify(graph_options, vertices, graph)
-    if colorNum == 2:
-      complete = True
   
 
 
@@ -127,9 +117,6 @@ def main():
 
   for pair in solution:
     print("{0} {1}".format(pair[0],pair[1]))
-
-  ##print(vertices)
-  ##print(edges)
 
 if __name__ == "__main__":
   main()

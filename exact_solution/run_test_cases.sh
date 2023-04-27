@@ -1,0 +1,1 @@
+python3 exact_solution/exact-solution.py < exact_solution/test_cases/mc_vc_3col.graph.txt > output.txt
