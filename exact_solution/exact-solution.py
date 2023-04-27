@@ -9,23 +9,52 @@ Exact Solution Code written by Hunter Bowles
 """
 import itertools
 
-def verify(permutations, vertices, edges):
+def verify(permutation, vertices, edges):
+
   """
   Takes list of vertices with colors and list of edges/vertices
   returns validity of color graph
   """
 
-  ##permutations = list(itertools.permutations(colored_graph, 3))
+  def isValidPairing(p1, p2):
 
-  for perm in permutations:
     """
-    Check to ensure fully unique vertices
-    check that neighbors have different colors
+    Conditions to be invalid color set:
+    1) 2 color assignments for same vertex
+    2) 2 vertices with same color are neighbors
+      a) IF the two are neighbors, then they MUST have different colors
+      b) if they are not neighbors, they can have the same
+      c) if they are not neighbors, they can still be different, too
+
+    I mean, that's really all there is to it
+
+    If the tuples in question pass both tests, return true
+    If it fails any of these tests, then return false
     """
-    
 
+    if p1[0] == p2[0]: ## if the two tuples represent the same vertex, no need to do more.
+      #print(p1,p2)
+      ## print("both for same vertex")
+      return False
+    if p2[0] in edges[vertices.index(p1[0])]: ## if they're neighbors, confirm the color difference
+      if p1[1] == p2[1]:
+        return False
+      else:
+        return True
 
-  return None
+  """
+  Check to ensure fully unique vertices
+  check that neighbors have different colors
+  """
+
+  print(permutation)
+
+  for pair in permutation:
+    for other in permutation:
+      if pair != other:
+        if isValidPairing(pair, other) == False:
+          return None
+  return permutation
 
 def minColorExact(graph, vertices):
   """
@@ -39,6 +68,7 @@ def minColorExact(graph, vertices):
   colorNum = 0
   while complete == False:
     colorNum += 1 ## increase the number of colors until a valid graph is found
+    ## print(colorNum)
     colors = [] ## sets starting condition where no colors are used
     for i in range(colorNum):
       colors.append(i)
@@ -63,11 +93,20 @@ def minColorExact(graph, vertices):
     Also Consider: Iterate through each unique vertex and combine with others
     """
 
-    final_graph = verify(list(itertools.permutations(potential_colors, len(vertices))), vertices, graph)
+    graph_options = list(itertools.permutations(potential_colors, len(vertices)))
+    # if colorNum == 2:
+    #   for option in graph_options:
+    #     print(option)
 
-    complete = True
+    for option in graph_options:
+      if verify(option, vertices, graph) != None:
+        return option
 
-  return final_graph
+    ## final_graph = verify(graph_options, vertices, graph)
+    if colorNum == 2:
+      complete = True
+
+  ##return final_graph
 
 
 def main():
