@@ -24,6 +24,8 @@ def main():
     
     print(graph)
     print(min_graph_coloring(graph, colored_graph, colors))
+    for v in colored_graph:
+        print(v, colored_graph[v])
 
 def min_graph_coloring(graph, colored_graph, colors):
     #list of colors
@@ -44,17 +46,17 @@ def min_graph_coloring(graph, colored_graph, colors):
     #find vertex with highest degree
     highest_degree_vertex = get_highest_degree(sat_vertices, colored_graph)
 
+    #color vertex with minimum color possible
     if len(colors) == 0:
         colors.append(0)
         colored_graph[highest_degree_vertex] = colors[0]
-
-    #color vertex with minimum color possible
-    color = get_best_color(highest_degree_vertex, graph, colored_graph, colors)
-    if color == -1:
-        colors.append(len(colors))
-        colored_graph = len(colors)
     else:
-        colored_graph = color
+        color = get_best_color(highest_degree_vertex, graph, colored_graph, colors)
+        if color == -1:
+            colors.append(len(colors))
+            colored_graph[highest_degree_vertex] = len(colors) - 1
+        else:
+            colored_graph[highest_degree_vertex] = color
 
     if remaining_uncolored(colored_graph):
         return min_graph_coloring(graph, colored_graph, colors)
@@ -76,19 +78,19 @@ def get_saturated(vertex_map, colored_graph):
                 sat_vertices[v] = vertex_map[v]
     return sat_vertices
 
-def get_highest_degree(vertex_map, colored_graph):
+def get_highest_degree(sat_map, colored_graph):
     highest_degree = -1
     highest_vertex = -1
-    for v in vertex_map:
+    for v in sat_map:
         if colored_graph[v] == -1:
-            curr_degree = vertex_map[v][0]
+            curr_degree = sat_map[v][0]
             if curr_degree > highest_degree:
                 highest_degree = curr_degree
                 highest_vertex = v
     return highest_vertex
 
 def get_best_color(v, graph, colored_graph, colors):
-    remaining_colors = colors
+    remaining_colors = colors.copy()
     for u in graph[v]:
         color = colored_graph[u]
         if color > -1:
