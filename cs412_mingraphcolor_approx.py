@@ -1,3 +1,9 @@
+"""
+Dylan Ballard
+Min Graph Coloring approximate solution
+Greedy approach
+"""
+
 def main():
     num_edges = int(input())
 
@@ -19,49 +25,44 @@ def main():
         
         if v2 not in colored_graph:
             colored_graph[v2] = -1
-    
-    colors = []
-    
-    print(graph)
-    print(min_graph_coloring(graph, colored_graph, colors))
+        
+    print(min_graph_coloring(graph, colored_graph))
     for v in colored_graph:
         print(v, colored_graph[v])
 
-def min_graph_coloring(graph, colored_graph, colors):
-    #list of colors
+def min_graph_coloring(graph, colored_graph):
+    colors = []
 
-    vertex_map = {}
-    for v in graph:
-        degree = len(graph[v])
-        sat = 0
-        for u in graph[v]:
-            if colored_graph[u] > -1:
-                sat += 1
-        #set degrees for each vertex
-        #set saturation for each vertex
-        vertex_map[v] = (degree, sat)
+    for _ in range(len(graph)):   
+        vertex_map = {}
+        for v in graph:
+            degree = len(graph[v])
+            sat = 0
+            for u in graph[v]:
+                if colored_graph[u] > -1:
+                    sat += 1
+            #set degrees for each vertex
+            #set saturation for each vertex
+            vertex_map[v] = (degree, sat)
 
-    #find vertices with high saturation
-    sat_vertices = get_saturated(vertex_map, colored_graph)
-    #find vertex with highest degree
-    highest_degree_vertex = get_highest_degree(sat_vertices, colored_graph)
+        #find vertices with high saturation
+        sat_vertices = get_saturated(vertex_map, colored_graph)
+        #find vertex with highest degree
+        highest_degree_vertex = get_highest_degree(sat_vertices, colored_graph)
 
-    #color vertex with minimum color possible
-    if len(colors) == 0:
-        colors.append(0)
-        colored_graph[highest_degree_vertex] = colors[0]
-    else:
-        color = get_best_color(highest_degree_vertex, graph, colored_graph, colors)
-        if color == -1:
-            colors.append(len(colors))
-            colored_graph[highest_degree_vertex] = len(colors) - 1
+        #color vertex with minimum color possible
+        if len(colors) == 0:
+            colors.append(0)
+            colored_graph[highest_degree_vertex] = colors[0]
         else:
-            colored_graph[highest_degree_vertex] = color
+            color = get_best_color(highest_degree_vertex, graph, colored_graph, colors)
+            if color == -1:
+                colors.append(len(colors))
+                colored_graph[highest_degree_vertex] = len(colors) - 1
+            else:
+                colored_graph[highest_degree_vertex] = color
 
-    if remaining_uncolored(colored_graph):
-        return min_graph_coloring(graph, colored_graph, colors)
-    else:
-        return len(colors)
+    return len(colors)
 
 def get_saturated(vertex_map, colored_graph):
     sat_vertices = {}
@@ -101,12 +102,5 @@ def get_best_color(v, graph, colored_graph, colors):
         return remaining_colors[0]
     return -1
 
-def remaining_uncolored(colored_graph):
-    remaining = False
-    for v in colored_graph:
-        if colored_graph[v] == -1:
-            remaining = True
-    return remaining
-    
 if __name__ == "__main__":
     main()
