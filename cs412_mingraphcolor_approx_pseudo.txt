@@ -1,0 +1,33 @@
+main()
+    num_edges <- number of edges from input
+
+    graph <- create graph using the given edges
+    colored_graph <- map of vertices to given color
+
+    print mingraphcoloring(graph, colored_graph)
+    for every vertex, v, in graph
+        print(v, colored_graph[v])
+
+min_graph_coloring(graph, colored_graph)
+    colors <- list of colors
+
+    for every vertex in graph
+        vertex_map <- map of vertices to (degree, saturation)
+
+        sat_vertices = get_saturated(vertex_map, colored_graph) <- finds the most
+                saturated vertex/vertices
+
+        highest_degree_vertex = get_highest_degree(sat_vertices, colored_graph) <- gets the
+                highest degree vertex out of the most saturated egdes that hasn't yet been colored
+        
+        if length of colors == 0
+            add 0 to colors
+            colored_graph[highest_degree_vertex] = 0
+        else
+            color = get_best_color(highest_degree_vertex, graph, colored_graph, colors) <- gets
+                    the lowest index color within colors to color the vertex with. if there isn't
+                    one it increases the number of colors in colors
+            colored_graph[highest_degree_vertex] = color
+
+    return length of colors <- returns the size of the list which 
+                          represents the number of colors used
