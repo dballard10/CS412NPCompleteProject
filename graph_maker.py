@@ -16,3 +16,6 @@ def main():
 
     for a in range(numEdges):
         print("{0} {1}".format(edges[a][0],edges[a][1]))
+
+
+main()
